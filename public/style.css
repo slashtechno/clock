@@ -1,3 +1,7 @@
+/* @font-face is for local fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+/* Used with `font: Roboto, sans-serif` (fallback fonts can be specified) */
+
 body{
     background: #545c59;
     margin: 0;
@@ -9,6 +13,23 @@ body{
     justify-content: center;
     /* Set the viewport height to 100% */
     min-height: 100vh;
+}
+
+#title {
+    color:whitesmoke;
+    /* font sets font properties (including some not included) */
+    /* rem is relative to the font-size of the root element. */
+    /* em is relative to the font-size of the element */
+    /* Percentage, em, rem, and viewport units are all relative units and are useful for responsive design */
+    font: 2rem Roboto, sans-serif;
+}
+
+.clock-container {
+  /* Center child elements both horizontally and vertically */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .clock{
