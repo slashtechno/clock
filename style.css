@@ -42,7 +42,8 @@ body{
     /* Rotate the hands */
     transform: rotate(90deg);
     /*  Transition effects! */
-    transition: all 0.05s;
+    /* No longer needed as this is handled by JS setting this */
+    /* transition: all 0.05s; */
     transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
   }
 
