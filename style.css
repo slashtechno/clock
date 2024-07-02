@@ -1,0 +1,64 @@
+body{
+    background: #545c59;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    /* Horizontally center the content */
+    align-items: center;
+    /* Vertically center the content */
+    justify-content: center;
+    /* Set the viewport height to 100% */
+    min-height: 100vh;
+}
+
+.clock{
+    width: 25rem;
+    height: 25rem;
+    /*  Set the border to 20px with a solid line and off-white color */
+    border: 20px solid whitesmoke;
+    border-radius: 50px;
+    background: blanchedalmond;
+    background-image: url(https://cloud-l0h0a6w3v.vercel.app/clock.png);
+    background-size: cover; 
+    /* Create a 4px shadow around the clock */
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1), inset 0 0 0 3px #efefef,
+    inset 0 0 10px black, 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.clock-face{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Hands of the clock */
+.hand {
+    background: black;
+    height: 6px;
+    position: absolute;
+    top: 50%;
+    /*  Transform from the end of the line */
+    transform-origin: 100%;
+    /* Rotate the hands */
+    transform: rotate(90deg);
+    /*  Transition effects! */
+    transition: all 0.05s;
+    transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+  }
+
+/*  `right` is a property which specifies the right margin of an element */
+
+.hour-hand {
+    width: 30%;
+    right: 50%;
+  }
+  
+  .min-hand {
+    width: 35%;
+    right: 50%;
+  }
+  
+  .second-hand {
+    width: 40%;
+    right: 50%;
+  }
