@@ -1,6 +1,8 @@
 // Basically importing stuff by requiring it and setting it to a const
 const express = require('express');
 const cors = require('cors');
+const db = require('./db')
+  
 
 // Create the app
 const app = express()
@@ -13,9 +15,30 @@ const PORT = process.env.PORT || 3000
 // `=>` is an arrow function, which is shorthand for function (req, res) { ... }
 // It indicates that the following body uses the parameters `req` and `res`
 // From W3Schools: `hello = (val) => "Hello " + val;`
-app.get('/', (req, res) => {
-    res.send('Hello, world!')
-})
+// app.get('/', (req, res) => {
+//     res.send('Hello, world!')
+// })
+app.get('/getAll', (req, res) => handle(req, res, db.getAll))
+
+
+async function handle(req, res, method){
+  // Log the request 
+  console.log("Received request")
+  // Try to call the method on the request
+  try{
+    const onSuccess = await method(req);
+    // If this fails, the following won't run
+    res.send({
+      status: "success",
+      response: onSuccess
+    })
+  } catch(e){
+    res.send({
+      status: "failure",
+      error: e.message
+    })
+  }
+}
 
 // Start the server
 app.listen(PORT, () => {
