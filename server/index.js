@@ -7,6 +7,9 @@ const db = require('./db')
 // Create the app
 const app = express()
 app.use(cors())
+// The Express JSON middleware parses incoming requests with JSON payloads into `req.body`
+app.use(express.json())
+
 
 // run the server on whatever was specified by the env or fallback to 3000
 const PORT = process.env.PORT || 3000
@@ -19,6 +22,8 @@ const PORT = process.env.PORT || 3000
 //     res.send('Hello, world!')
 // })
 app.get('/getAll', (req, res) => handle(req, res, db.getAll))
+app.post('/set', (req, res) => handle(req, res, db.set))
+app.post('/clearDb', (req, res) => handle(req, res, db.clearDb))
 
 
 async function handle(req, res, method){
