@@ -2,6 +2,8 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./db')
+const { rateLimit } = require('express-rate-limit')
+
   
 
 // Create the app
@@ -9,7 +11,14 @@ const app = express()
 app.use(cors())
 // The Express JSON middleware parses incoming requests with JSON payloads into `req.body`
 app.use(express.json())
-
+// Rate limit
+const limiter = rateLimit({
+	windowMs: 1 * 60 * 1000, //  1 5minute
+	limit: 2, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+app.use(limiter)
 
 // run the server on whatever was specified by the env or fallback to 3000
 const PORT = process.env.PORT || 3000
