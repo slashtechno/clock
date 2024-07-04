@@ -1,7 +1,7 @@
 // Basically importing stuff by requiring it and setting it to a const
 const express = require('express');
 const cors = require('cors');
-const db = require('./db')
+const db = require('./llm.js')
 const { rateLimit } = require('express-rate-limit')
 
   
@@ -30,9 +30,7 @@ const PORT = process.env.PORT || 3000
 // app.get('/', (req, res) => {
 //     res.send('Hello, world!')
 // })
-app.get('/getAll', (req, res) => handle(req, res, db.getAll))
-app.post('/set', (req, res) => handle(req, res, db.set))
-app.post('/clearDb', (req, res) => handle(req, res, db.clearDb))
+app.post('/getRhyme', (req, res) => handle(req, res, db.getRhyme))
 
 
 async function handle(req, res, method){
