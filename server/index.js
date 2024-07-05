@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./llm.js')
+const path = require('path')
 const { rateLimit } = require('express-rate-limit')
 
   
@@ -13,12 +14,11 @@ app.use(cors())
 app.use(express.json())
 // Rate limit
 const limiter = rateLimit({
-	windowMs: 1 * 60 * 1000, //  1 5minute
-	limit: 2, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	windowMs: 1 * 60 * 1000, //  1 minute
+	limit: 1, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
 	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
-app.use(limiter)
 
 // run the server on whatever was specified by the env or fallback to 3000
 const PORT = process.env.PORT || 3000
@@ -31,7 +31,7 @@ const PORT = process.env.PORT || 3000
 //     res.send('Hello, world!')
 // })
 app.post('/getRhyme', (req, res) => handle(req, res, db.getRhyme))
-
+app.use('/getRhyme', limiter)
 
 async function handle(req, res, method){
   // Log the request 
@@ -51,6 +51,8 @@ async function handle(req, res, method){
     })
   }
 }
+
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Start the server
 app.listen(PORT, () => {

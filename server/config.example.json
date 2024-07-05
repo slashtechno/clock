@@ -1,0 +1,5 @@
+{
+    "openai_base_url": "https://openrouter.ai/api/v1",
+    "openai_api_key": "sk-or-v1-...",
+    "openai_model": "google/gemma-2-9b-it:free"
+}
