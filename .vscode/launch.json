@@ -11,12 +11,12 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/server/index.js",
+            "program": "${workspaceFolder}/server/index.mjs",
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ],
             // Run in ./server
-            "cwd": "${workspaceFolder}/server"
+            "cwd": "${workspaceFolder}"
         }
     ]
 }

@@ -1,11 +1,15 @@
-// Basically importing stuff by requiring it and setting it to a const
-const express = require('express');
-const cors = require('cors');
-const db = require('./llm.js')
-const path = require('path')
-const { rateLimit } = require('express-rate-limit')
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import * as llm from './llm.mjs';
+import rateLimit from 'express-rate-limit';
 
-  
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 // Create the app
 const app = express()
@@ -31,7 +35,7 @@ const PORT = process.env.PORT || 3000
 //     res.send('Hello, world!')
 // })
 app.use('/getRhyme', limiter)
-app.post('/getRhyme', (req, res) => handle(req, res, db.getRhyme))
+app.post('/getRhyme', (req, res) => handle(req, res, llm.getRhyme))
 
 async function handle(req, res, method){
   // Log the request 

@@ -1,32 +1,16 @@
-const fs = require('fs').promises;
-const { OpenAI } = require('openai');
+import fs from 'fs/promises';
+import { OpenAI } from 'openai';
+import dotenv from 'dotenv';
+
 const configFile = process.env.CONFIG_FILE || 'config.json';
 let config;
-let openAiConfig;
-let openAiApi;
+let openai_model;
+dotenv.config();
 
-module.exports = {
-    getRhyme
-}
+export { getRhyme };
 
-loadAndConfigure();
 
-async function loadAndConfigure() {
-    try {
-        config = await loadConfigFile();
-        console.log(config); // This will print the config to the
-    } catch (e) {
-        console.error(`Could not load config file ${configFile}`);
-        process.exit(1);
-    }
-    try {
-        openAiApi = await setupOpenAi(config);
-    } catch (e) {
-        console.error(`Could not setup OpenAI API`);
-        process.exit(1);
-    }
-}
-
+const openAiApi = await setupOpenAi();
 
 async function requestRhyme(date) {
     // Extract hours and minutes
@@ -45,7 +29,7 @@ async function requestRhyme(date) {
     const timeString = `${hours}:${minutes} ${ampm}`;
     // const sentTime = `The time ${timeString} told as a rhyme. Only the rhyme and nothing else\n\n`;
     const response = await openAiApi.chat.completions.create({
-        model: config.openai_model,
+        model: openai_model,
         messages: [
             {
                 role: 'system',
@@ -83,26 +67,35 @@ async function getRhyme(req) {
 }
 
 
-async function setupOpenAi(config) {
-    if (!config.hasOwnProperty("openai_base_url") || !config.hasOwnProperty("openai_api_key") || !config.hasOwnProperty("openai_model")) {
-        throw new Error("Config must have openai_base_url, openai_api_key, and openai_model fields")
+async function setupOpenAi() {
+    let openai_base_url, openai_api_key;
+
+    // Attempt to use environment variables
+    if (process.env.OPENAI_BASE_URL && process.env.OPENAI_API_KEY && process.env.OPENAI_MODEL) {
+        openai_base_url = process.env.OPENAI_BASE_URL;
+        openai_api_key = process.env.OPENAI_API_KEY;
+        openai_model = process.env.OPENAI_MODEL;
+        console.log("Using environment variables for OpenAI configuration");
+    } else {
+        // Fallback to config.json if environment variables are not set
+        console.log("Using config.json for OpenAI configuration");
+        try {
+            const configPath = path.join(__dirname, 'config.json');
+            const configData = await fs.readFile(configPath, 'utf8');
+            const config = JSON.parse(configData);
+            openai_base_url = config.openai_base_url;
+            openai_api_key = config.openai_api_key;
+            openai_model = config.openai_model;
+        } catch (error) {
+            throw new Error("Failed to load configuration from environment variables or config.json");
+        }
     }
 
     const openai = new OpenAI({
-        apiKey:  config.openai_api_key,
-        baseURL: config.openai_base_url
-      });
+        apiKey: openai_api_key,
+        baseURL: openai_base_url
+    });
     return openai;
-}
-
-async function loadConfigFile() {
-    return fs.readFile(configFile, 'utf8')
-        .then(JSON.parse)
-        .catch((e) => {
-            console.error(`Could not load config file ${configFile}`);
-            console.error(e);
-            process.exit(1);
-        });
 }
 
 async function loadConfigFile() {
