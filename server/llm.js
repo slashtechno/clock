@@ -29,14 +29,40 @@ async function loadAndConfigure() {
 
 
 async function requestRhyme(date) {
-    const timeString = date.toLocaleTimeString(); // Extracts only the time part
-    const prompt = `The time ${timeString} told as a rhyme. Only the rhyme and nothing else\n\n`;
-    const response = await openAiApi.completions.create({
+    // Extract hours and minutes
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    // Convert hours to 12-hour format (get the remainder when divided by 12)
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12' as 12/12 has a remainder of 0
+    
+    // Format minutes to always be two digits
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    
+    // Construct the time string with AM/PM but without seconds
+    const timeString = `${hours}:${minutes} ${ampm}`;
+    // const sentTime = `The time ${timeString} told as a rhyme. Only the rhyme and nothing else\n\n`;
+    const response = await openAiApi.chat.completions.create({
         model: config.openai_model,
-        prompt: prompt,
+        messages: [
+            {
+                role: 'system',
+                content: "You are powering a clock that displays a one-line rhyme for the current time. The user will send you a time and you should respond with a rhyme for that time. Only the rhyme and nothing else. No formatting, no leading punctuation or leading special characters. Just the rhyme that tells the time in a creative way."
+                
+            },
+            {
+                role: 'user',
+                // Maybe it would be better to just send the time
+                // content: `The time is ${timeString}`
+                content: timeString
+            }   
+        ],
         max_tokens: 100,
+
     })
-    return response.choices[0].text
+    return response.choices[0].message.content
 
 }
 

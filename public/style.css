@@ -13,9 +13,7 @@ body{
     justify-content: center;
     /* Set the viewport height to 100% */
     min-height: 100vh;
-}
 
-.info{
     color:whitesmoke;
     /* font sets font properties (including some not included) */
     /* rem is relative to the font-size of the root element. */
@@ -26,13 +24,21 @@ body{
     font-family: Roboto, sans-serif;
 }
 
-#info{
-    font-size: 1.5rem;
+a {
+  /* A light green color for the links */
+  color: #78c2ad; 
+  /* Remove the underline */
+  text-decoration: none;
+ /* Bold font weight for better readability */
+  font-weight: 700; 
 }
 
-#title{
-    font-size: 2rem;
+a:hover {
+  /* When the user hovers over the link, underline it and change the color */
+  color: #d4f0f0; 
+  text-decoration: underline;
 }
+
 
 .clock-container {
   /* Center child elements both horizontally and vertically */

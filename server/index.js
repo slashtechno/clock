@@ -15,7 +15,7 @@ app.use(express.json())
 // Rate limit
 const limiter = rateLimit({
 	windowMs: 1 * 60 * 1000, //  1 minute
-	limit: 1, // Limit each IP to 100 requests per `window` 
+	limit: 2, // Limit each IP to n` requests per `window` 
 	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
