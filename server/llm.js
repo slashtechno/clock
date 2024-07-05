@@ -30,11 +30,11 @@ async function loadAndConfigure() {
 
 async function requestRhyme(date) {
     const timeString = date.toLocaleTimeString(); // Extracts only the time part
-    const prompt = `The time ${timeString} told as a rhyme (with no other text except the rhyme):\n\n`;
+    const prompt = `The time ${timeString} told as a rhyme. Only the rhyme and nothing else\n\n`;
     const response = await openAiApi.completions.create({
         model: config.openai_model,
         prompt: prompt,
-        max_tokens: 20,
+        max_tokens: 100,
     })
     return response.choices[0].text
 

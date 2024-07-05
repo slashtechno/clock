@@ -1,4 +1,4 @@
-let rhymeFetched = false
+let rhymeFetchedMinute = -1;
 
 // function setDate(secondHand: HTMLElement, minHand: HTMLElement, hourHand: HTMLElement): void {
 function setDate(secondHand, minHand, hourHand) {
@@ -19,38 +19,39 @@ function setDate(secondHand, minHand, hourHand) {
     const hoursDeg = (hours / 12) * 360 + 90
     hourHand.style.transform = `rotate(${hoursDeg}deg)`
 
-    
+
     // When the minute changes, reset the positions of the other hands instead of keeping the prior position before seamlessly transitioning
     if (seconds == 0) {
         secondHand.style.transitionDuration = '0s';
         minHand.style.transitionDuration = '0s';
         hourHand.style.transitionDuration = '0s';
-        const rhyme = document.getElementById("rhyme");
-        if (!rhymeFetched) {
-            // Send the date as the body to the server
-            fetch('/getRhyme', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ datetime: currentTime.toISOString() }),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Success:', data);
-                    rhyme.innerHTML = data.response.rhyme;
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-            rhymeFetched = true;
-        }
     } else {
         secondHand.style.transitionDuration = '0.05s';
         minHand.style.transitionDuration = '0.05s';
         hourHand.style.transitionDuration = '0.05s';
+        rhymeFetched = false;
     }
 
+    if (rhymeFetchedMinute != mins) {
+        const rhyme = document.getElementById("rhyme");
+        // Send the date as the body to the server
+        fetch('/getRhyme', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ datetime: currentTime.toISOString() }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                rhyme.innerHTML = data.response.rhyme;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        rhymeFetchedMinute = mins;
+    }
 
     // Basically the same as setInterval but matches the refresh rate
     requestAnimationFrame(function () {

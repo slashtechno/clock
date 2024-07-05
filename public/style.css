@@ -15,23 +15,24 @@ body{
     min-height: 100vh;
 }
 
-#title{
+.info{
     color:whitesmoke;
     /* font sets font properties (including some not included) */
     /* rem is relative to the font-size of the root element. */
     /* em is relative to the font-size of the element */
     /* Percentage, em, rem, and viewport units are all relative units and are useful for responsive design */
-    font: 2rem Roboto, sans-serif;
-}
-#rhyme{
-  color:whitesmoke;
-  /* font sets font properties (including some not included) */
-  /* rem is relative to the font-size of the root element. */
-  /* em is relative to the font-size of the element */
-  /* Percentage, em, rem, and viewport units are all relative units and are useful for responsive design */
-  font: 1.5rem Roboto, sans-serif;
+    /* font: 2rem Roboto, sans-serif; */
+
+    font-family: Roboto, sans-serif;
 }
 
+#info{
+    font-size: 1.5rem;
+}
+
+#title{
+    font-size: 2rem;
+}
 
 .clock-container {
   /* Center child elements both horizontally and vertically */

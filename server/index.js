@@ -15,7 +15,7 @@ app.use(express.json())
 // Rate limit
 const limiter = rateLimit({
 	windowMs: 1 * 60 * 1000, //  1 minute
-	limit: 1, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	limit: 1, // Limit each IP to 100 requests per `window` 
 	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
@@ -30,8 +30,8 @@ const PORT = process.env.PORT || 3000
 // app.get('/', (req, res) => {
 //     res.send('Hello, world!')
 // })
-app.post('/getRhyme', (req, res) => handle(req, res, db.getRhyme))
 app.use('/getRhyme', limiter)
+app.post('/getRhyme', (req, res) => handle(req, res, db.getRhyme))
 
 async function handle(req, res, method){
   // Log the request 
