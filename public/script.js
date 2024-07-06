@@ -1,5 +1,9 @@
 let rhymeFetchedMinute = -1;
 
+function getApiKeyHash(infoElement){
+
+}
+
 // function setDate(secondHand: HTMLElement, minHand: HTMLElement, hourHand: HTMLElement): void {
 function setDate(secondHand, minHand, hourHand) {
     // Set the divs that are styled to be clock hands

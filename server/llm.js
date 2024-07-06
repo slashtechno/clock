@@ -2,15 +2,15 @@ import fs from 'fs/promises';
 import { OpenAI } from 'openai';
 import dotenv from 'dotenv';
 
-const configFile = process.env.CONFIG_FILE || 'config.json';
-let config;
+// const configFile = process.env.CONFIG_FILE || 'config.json';
 let openai_model;
 dotenv.config();
 
 export { getRhyme };
 
 
-const openAiApi = await setupOpenAi();
+const config = await loadConfig();
+const openAiApi = await setupOpenAi(config);
 
 async function requestRhyme(date) {
     // Extract hours and minutes
@@ -67,10 +67,24 @@ async function getRhyme(req) {
 }
 
 
-async function setupOpenAi() {
-    let openai_base_url, openai_api_key;
+async function setupOpenAi(config) {
+    const openai = new OpenAI({
+        apiKey: config.openai_api_key,
+        baseURL: config.openai_base_url
+    });
+    return openai;
+}
 
-    // Attempt to use environment variables
+async function getApiKeyHash(req) {
+    // Send the hash of the API key to the client
+    const openai_api_key = openAiApi.apiKey
+    return {
+        apiKeyHash: md5(openai_api_key)
+    }
+
+}
+async function loadConfig() {
+    let openai_base_url, openai_api_key, openai_model;
     if (process.env.OPENAI_BASE_URL && process.env.OPENAI_API_KEY && process.env.OPENAI_MODEL) {
         openai_base_url = process.env.OPENAI_BASE_URL;
         openai_api_key = process.env.OPENAI_API_KEY;
@@ -91,19 +105,9 @@ async function setupOpenAi() {
         }
     }
 
-    const openai = new OpenAI({
-        apiKey: openai_api_key,
-        baseURL: openai_base_url
-    });
-    return openai;
-}
-
-async function loadConfigFile() {
-    return fs.readFile(configFile, 'utf8')
-        .then(JSON.parse)
-        .catch((e) => {
-            console.error(`Could not load config file ${configFile}`);
-            console.error(e);
-            process.exit(1);
-        });
+    return {
+        "openai_base_url": openai_base_url,
+        "openai_api_key": openai_api_key,
+        "openai_model": openai_model
+    }
 }

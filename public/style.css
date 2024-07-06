@@ -24,6 +24,11 @@ body{
     font-family: Roboto, sans-serif;
 }
 
+#api-disclaimer{
+  /* Unlike visibility:hidden, display:none removes the element from the layout */
+  display: none;
+}
+
 a {
   /* A light green color for the links */
   color: #78c2ad; 
