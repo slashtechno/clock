@@ -1,7 +1,7 @@
 let rhymeFetchedMinute = -1;
 
+// curl localhost:3000/getApiKeyHash
 function getApiKeyHash(infoElement){
-
 }
 
 // function setDate(secondHand: HTMLElement, minHand: HTMLElement, hourHand: HTMLElement): void {

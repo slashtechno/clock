@@ -1,12 +1,12 @@
 import fs from 'fs/promises';
 import { OpenAI } from 'openai';
 import dotenv from 'dotenv';
-
+import md5 from 'md5';
 // const configFile = process.env.CONFIG_FILE || 'config.json';
 let openai_model;
 dotenv.config();
 
-export { getRhyme };
+export { getRhyme, getApiKeyHash };
 
 
 const config = await loadConfig();
