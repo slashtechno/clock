@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import * as llm from './llm.mjs';
+import * as llm from './llm.js';
 import rateLimit from 'express-rate-limit';
 
 
