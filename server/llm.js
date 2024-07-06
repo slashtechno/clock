@@ -7,7 +7,7 @@ import md5 from 'md5';
 let openai_model;
 dotenv.config();
 
-export { getRhyme, getApiKeyHash };
+export { getRhyme, getDisclaimer };
 
 
 const config = await loadConfig();
@@ -76,15 +76,11 @@ async function setupOpenAi(config) {
     return openai;
 }
 
-async function getApiKeyHash(req) {
-    // Send the hash of the API key to the client
-    const keyHash = md5(config.openai_api_key);
-    if (keyHash == "9920e835b0b73f44f407f9b8221367ff"){ 
-        return {
-            message: "Please be advised, this is using my OpenRouter API key on the backend and thus, you may encounter rate limits."
+async function getDisclaimer() {
+return {
+            message: config.disclaimer_message
         }
     }
-}
 async function loadConfig() {
     let openai_base_url, openai_api_key, openai_model;
     if (process.env.OPENAI_BASE_URL && process.env.OPENAI_API_KEY && process.env.OPENAI_MODEL) {
@@ -107,9 +103,26 @@ async function loadConfig() {
         }
     }
 
+    // Optional options
+    let apiKeyDisclaimer = "";
+    if (process.env.DISCLAIMER_MESSAGE) {
+        apiKeyDisclaimer = process.env.DISCLAIMER_MESSAGE;
+    } else {
+        // Try loading the JSON (again)
+        try {
+            const disclaimerPath = path.join(__dirname, 'disclaimer.json');
+            const disclaimerData = await fs.readFile(disclaimerPath, 'utf8');
+            const disclaimer = JSON.parse(disclaimerData);
+            apiKeyDisclaimer = disclaimer.message;
+        } catch (error) {
+            console.log("Failed to load disclaimer message");
+        }
+    }
+
     return {
         "openai_base_url": openai_base_url,
         "openai_api_key": openai_api_key,
-        "openai_model": openai_model
+        "openai_model": openai_model,
+        "disclaimer_message": apiKeyDisclaimer
     }
 }

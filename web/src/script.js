@@ -2,8 +2,8 @@ import md5 from 'md5';
 
 let rhymeFetchedMinute = -1;
 
-function getApiKeyHash(infoElement) {
-    fetch('/apiKeyHashMessage')
+function getDisclaimer(infoElement) {
+    fetch('/getDisclaimer')
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
@@ -85,5 +85,5 @@ document.addEventListener('DOMContentLoaded', () => {
     setDate(secondHand, minHand, hourHand);
     // Get the info element
     const infoElement = document.getElementById("api-disclaimer");
-    getApiKeyHash(infoElement);
+    getDisclaimer(infoElement);
 });

@@ -1,5 +1,6 @@
 {
     "openai_base_url": "https://openrouter.ai/api/v1",
     "openai_api_key": "sk-or-v1-...",
-    "openai_model": "google/gemma-2-9b-it:free"
+    "openai_model": "google/gemma-2-9b-it:free",
+    "disclaimer_message": "This is a disclaimer message that can optionally be displayed to users."
 }
