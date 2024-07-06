@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import { OpenAI } from 'openai';
 import dotenv from 'dotenv';
 import md5 from 'md5';
+
 // const configFile = process.env.CONFIG_FILE || 'config.json';
 let openai_model;
 dotenv.config();
@@ -29,7 +30,7 @@ async function requestRhyme(date) {
     const timeString = `${hours}:${minutes} ${ampm}`;
     // const sentTime = `The time ${timeString} told as a rhyme. Only the rhyme and nothing else\n\n`;
     const response = await openAiApi.chat.completions.create({
-        model: openai_model,
+        model: config.openai_model,
         messages: [
             {
                 role: 'system',
@@ -77,11 +78,12 @@ async function setupOpenAi(config) {
 
 async function getApiKeyHash(req) {
     // Send the hash of the API key to the client
-    const openai_api_key = openAiApi.apiKey
-    return {
-        apiKeyHash: md5(openai_api_key)
+    const keyHash = md5(config.openai_api_key);
+    if (keyHash == "9920e835b0b73f44f407f9b8221367ff"){ 
+        return {
+            message: "Please be advised, this is using my OpenRouter API key on the backend and thus, you may encounter rate limits."
+        }
     }
-
 }
 async function loadConfig() {
     let openai_base_url, openai_api_key, openai_model;

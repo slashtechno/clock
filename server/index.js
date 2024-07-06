@@ -37,7 +37,7 @@ const PORT = process.env.PORT || 3000
 app.use('/getRhyme', limiter)
 app.post('/getRhyme', (req, res) => handle(req, res, llm.getRhyme))
 
-app.get("/getApiKeyHash", (req, res) => handle(req, res, llm.getApiKeyHash))
+app.get("/apiKeyHashMessage", (req, res) => handle(req, res, llm.getApiKeyHash))
 
 async function handle(req, res, method){
   // Log the request 

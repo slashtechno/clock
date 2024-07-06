@@ -7,6 +7,7 @@ body{
     margin: 0;
     padding: 0;
     display: flex;
+    /* text-align: center; */
     /* Horizontally center the content */
     align-items: center;
     /* Vertically center the content */
@@ -24,10 +25,9 @@ body{
     font-family: Roboto, sans-serif;
 }
 
-#api-disclaimer{
-  /* Unlike visibility:hidden, display:none removes the element from the layout */
+/* #api-disclaimer{
   display: none;
-}
+} */
 
 a {
   /* A light green color for the links */
