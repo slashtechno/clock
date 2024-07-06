@@ -58,7 +58,7 @@ async function handle(req, res, method){
   }
 }
 
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../web/public')));
 
 // Start the server
 app.listen(PORT, () => {
