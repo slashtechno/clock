@@ -63,6 +63,7 @@ function setDate(secondHand, minHand, hourHand) {
             .then(data => {
                 console.log('Success:', data);
                 rhyme.innerHTML = data.response.rhyme;
+                document.title = data.response.rhyme;
             })
             .catch((error) => {
                 console.error('Error:', error);
