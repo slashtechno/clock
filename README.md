@@ -17,3 +17,12 @@ This assumes you have NodeJS installed
     - `npm run build`  
 6. Run!  
     - `npm run start`  
+
+### Docker  
+Alternatively, you can use Docker.  
+1. Clone the repository  
+    - `git clone https://github.com/slashtechno/clock`  
+2. `cd clock`  
+3. Either copy or rename `.env.example` and fill it out  
+4. Launch the container  
+    - `docker-compose up -d`  
