@@ -13,10 +13,10 @@ export { getRhyme, getDisclaimer };
 const config = await loadConfig();
 const openAiApi = await setupOpenAi(config);
 
-async function requestRhyme(date) {
+async function requestRhyme(receivedDate) {
     // Extract hours and minutes
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
+    let hours = receivedDate.getHours();
+    let minutes = receivedDate.getMinutes();
     const ampm = hours >= 12 ? 'PM' : 'AM';
     
     // Convert hours to 12-hour format (get the remainder when divided by 12)
