@@ -58,7 +58,10 @@ function setDate(secondHand, minHand, hourHand) {
                 'Content-Type': 'application/json',
             },
             // body: JSON.stringify({ datetime: currentTime.toISOString() }),
-            body: JSON.stringify({ datetime: currentTime}),
+            body: JSON.stringify({ 
+                hours: hours,
+                minutes: mins,
+            }),
         })
             .then(response => response.json())
             .then(data => {

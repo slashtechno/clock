@@ -13,10 +13,7 @@ export { getRhyme, getDisclaimer };
 const config = await loadConfig();
 const openAiApi = await setupOpenAi(config);
 
-async function requestRhyme(receivedDate) {
-    // Extract hours and minutes
-    let hours = receivedDate.getHours();
-    let minutes = receivedDate.getMinutes();
+async function requestRhyme(hours, minutes) {
     const ampm = hours >= 12 ? 'PM' : 'AM';
     
     // Convert hours to 12-hour format (get the remainder when divided by 12)
@@ -53,13 +50,15 @@ async function requestRhyme(receivedDate) {
 
 async function getRhyme(req) {
     // Check if req.body has the key "datetime" with a marshalled date
-    if (!req.body.hasOwnProperty("datetime")) {
-        throw new Error("Request must have a datetime field")
+    if (!req.body.hasOwnProperty("hours") || !req.body.hasOwnProperty("minutes")) {
+        throw new Error("Request must have hours and minutes")
     }
     // Get the date from the request body
-    const date = new Date(req.body.datetime)
     // Get the rhyme from the OpenAI API
-    const rhyme = await requestRhyme(date)
+    const rhyme = await requestRhyme(req.body.hours, req.body.minutes).catch((error) => {
+        log.error(error);
+        throw new Error("Could not generate rhyme");
+    });
     console.log(rhyme)
     return {
         rhyme: rhyme
