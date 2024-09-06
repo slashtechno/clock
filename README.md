@@ -1,4 +1,5 @@
 # Hello, time?  
+![Screenshot of the public instance](screenshot.png)
 A simple, open-source clock that displays rhymes. Inspired by the Hack Club workshops [Simple Clock](https://workshops.hackclub.com/simple_clock/) and [JsonDB](https://workshops.hackclub.com/json_db/), along with the[ Poem/1](https://www.kickstarter.com/projects/genmon/poem-1-the-ai-poetry-clock), an "AI rhyming clock".
 Public instance: [clock.angad.me](https://clock.angad.me/)
 
